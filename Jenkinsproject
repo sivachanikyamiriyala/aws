@@ -1,0 +1,155 @@
+    1  sudo su -
+    2  clear
+    3  wget
+    4  alias c=cclear
+    5  netstat -lntp
+    6  javac
+    7  sudo yum list all | grep -i java1.8
+    8  sudo yum list all | grep -i java
+    9  sudo yum list available | grep -i java
+   10  java -version
+   11  sudo yum list available | grep -i java|head
+   12  sudo yum list available | grep -i java|head -100
+   13  sudo yum install java1.8*
+   14  jaav -version
+   15  java -version
+   16  sudo  su -
+   17  pwd
+   18  wget https://download.sonatype.com/nexus/oss/nexus-latest-bundle.tar.gz
+   19  tar -xvzf nexus-latest-bundle.tar.gz 
+   20  ls
+   21  cd nexus-2.14.13-01/
+   22  l
+   23  scd bin/
+   24  cd bin/
+   25  ls
+   26  ./nexus start
+   27  netstat -lntp
+   28  ps -ef | grep -i nexus
+   29  netstat -lntp
+   30  cd
+   31  wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.7.zip
+   32  ls
+   33  unzip sonarqube-6.7.7.zip 
+   34  ls
+   35  wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+   36  ls
+   37  sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm 
+   38  sudo yum install mysql-server
+   39  sudo systemctl start mysqld
+   40  netstat -lntp
+   41  ps -ef | grep -i nexus
+   42  netstat -lntp
+   43  sudo mysql_secure_installation
+   44  sudo mysql -u root -p
+   45  ls
+   46  cd sonarqube-6.7.7
+   47  ls
+   48  cd conf/
+   49  ls
+   50  vi sonar.properties 
+   51  cd ..
+   52  ls
+   53  cd bin/
+   54  ls
+   55  cd linux-x86-64/
+   56  ls
+   57  ./sonar.sh start
+   58  netstat -lntp
+   59  cd
+   60  sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+   61  sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+   62  sudo yum install jenkins
+   63  sudo systemctl start jenkins
+   64  sudo systemctl enable jenkins
+   65  sudo systemctl enable mysqld
+   66  netstat -lntp
+   67  sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+   68  mvn --version
+   69  sudo mysql -u root -p
+   70  netstat -lntp
+   71  cd /opt/
+   72  wget http://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.19/bin/apache-tomcat-9.0.19.tar.gz
+   73  sudo chown ec2-user:ec2-user /opt/ -R
+   74  wget http://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.19/bin/apache-tomcat-9.0.19.tar.gz
+   75  ls
+   76  tar -xf apache-tomcat-9.0.19.tar.gz 
+   77  ll
+   78  cd apache-tomcat-9.0.19
+   79  ls
+   80  cd conf/
+   81  ls
+   82  sed -i -e 's/8080/8090/' server.xml 
+   83  grep connector server.xml 
+   84  vi server.xml 
+   85  vim tomcat-users.x
+   86  vi tomcat-users.xml 
+   87  ls
+   88  cd ..
+   89  cd bin/
+   90  ls
+   91  ./startup.sh 
+   92  netstat -lntp
+   93  ls
+   94  tomcat --version
+   95  cd
+   96  cd /opt/
+   97  netstat -lntp
+   98  ps -ef | grep -i tomcat
+   99  ls
+  100  wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.40/bin/apache-tomcat-8.5.40.tar.gz
+  101  ls
+  102  tar -xf apache-tomcat-8.5.40.tar.gz 
+  103  ls
+  104  cd apache-tomcat-8.5.40
+  105  ls
+  106  cd conf/
+  107  ls
+  108  vim server.xml 
+  109  vim tomcat-users.x
+  110  vim tomcat-users.xml 
+  111  cd ..
+  112  cd bin/
+  113  ls
+  114  ./startup.sh 
+  115  netstat -lntp
+  116  history
+  117  ls
+  118  cd
+  119  cd /opt/
+  120  l
+  121  ls
+  122  rm -rf *
+  123  ls
+  124  netstat -lntp
+  125  ps -ef | grep -i tomcat
+  126  kill 21402
+  127  ps -ef | grep -i tomcat
+  128  netstat -lntp
+  129  wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.40/bin/apache-tomcat-8.5.40.tar.gz
+  130  ls
+  131  tar -xf apache-tomcat-8.5.40.tar.gz 
+  132  ls
+  133  cd apache-tomcat-8.5.40
+  134  ls
+  135  cd conf/
+  136  ls
+  137  vim tomcat-users.xml 
+  138  vim server.xml 
+  139  netstat -lntp
+  140  ps -ef | grep -i tomcat
+  141  cd ..
+  142  cd bin/
+  143  ls
+  144  ./startup.sh 
+  145  netstat -lntp
+  146  cd ..
+  147  cd conf/
+  148  vim tomcat-users.x
+  149  vim tomcat-users.xml 
+  150  cd ..
+  151  cd bin/
+  152  ls
+  153  ./shutdown.sh 
+  154  ./startup.sh 
+  155  history >all
