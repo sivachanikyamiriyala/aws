@@ -1,0 +1,83 @@
+    1  clear
+    2  alias c=clear
+    3  c
+    4  sudo yum update -y
+    5  git --version
+    6  sudo yum -y install git
+    7  sudo yum install -y wget unzip net-tools
+    8  sudo yum list installed | grep -i net-tools
+    9  sudo yum install -y maven
+   10  java -version
+   11  javac
+   12  c
+   13  netstat -lntp
+   14  c
+   15  sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+   16  sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+   17  yum install jenkins
+   18  netstat -lntp
+   19  wget https://sonatype-download.global.ssl.fastly.net/nexus/oss/nexus-2.14.5-02-bundle.tar.gz
+   20  ls
+   21  mkdir siva
+   22  cd siva/
+   23  wget https://download.sonatype.com/nexus/oss/nexus-latest-bundle.tar.gz
+   24  ls
+   25  cd
+   26  sudo yum -y install tree
+   27  ls
+   28  c
+   29  ls
+   30  tree siva/
+   31  ls -l
+   32  tar -xvzf nexus-2.14.5-02-bundle.tar.gz
+   33  ls
+   34  cd  nexus-2.14.5-02/bin/
+   35  ls
+   36  ls -l
+   37  ./nexus start
+   38  netstat -lntp
+   39  ps -ef | grep -i nexus
+   40  cd
+   41  netstat -lntp
+   42  c
+   43  history
+   44  history > file
+15-04-2019
+https://pkg.jenkins.io/redhat-stable/
+https://tomcat.apache.org/download-70.cgi
+http://repo.mysql.com/
+https://www.sonarqube.org/downloads/
+https://help.sonatype.com/repomanager3/download
+
+
+
+16-04-2019
+cron
+crontab -l
+crontab -e
+cd /etc/cron.d
+mkdir cron.allow
+mkdir cron.deny
+mkdir at.allow
+mkdir at.deny
+chown 777 *
+cd
+crontab -l
+crontab-e
+every5min
+*/5 * * * * bash script1.sh >/dev/null
+every10min
+*/10 * * * 7 bash script.sh /dev/null
+2.30 pm every sat 
+30 14 * * 6 bash script.sh >/dev/null
+midnight sat
+0 0 * * 0 script.sh
+first fivedays of the month
+* * 1,2,3,4,5 * * script.sh
+* * 1-5 * * script.sh
+first 5days and last fivedays run the script6.sh
+* * 1-5,26-30 * * sh script6.sh < /dev/null
+every two hours
+* */2 * * * sh script7.sh 2>/dev/null
+
+
