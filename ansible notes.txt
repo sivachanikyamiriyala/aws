@@ -1,0 +1,334 @@
+------>Ansible adhoc commands and answers<---------
+    note:shell and command modules are not idempotent
+1.ansible command to check the MEMORY INFO on all managed nodes
+ ansible all -m command -a 'free'
+2.ansible command to check the partion structure of all managed nodes
+ ansible all -m command -a 'df -h'
+3.ansible command to create empty files on al the managed nodes
+ ansible all -m command -a 'touch a'
+note: default module is command module
+4.ansible command to execute ls -la on  all manged nodes and the o/p ina  file called file1 on all the managed-nodes
+ ansible all -m shell -a 'ls -la >file1'
+5.ansible command to install docker on the managed nodes
+ ansible all -m shell -a ''
+ ansible all -m shell -a 'sh '
+note:shell is used to execute shell commands and also piping and redirection symbols .Anything can be done in shell module but not idempotent means it will do the work again irrespective of checking the previous is there or not
+6.ansible command to copy /etc/passwd file into the all managed nodes into folder called /tmp
+ ansible all -m copy -a 'src=/etc/passwd dest=/tmp'
+7.ansible command to copy /etc/group file into all managed nodes and change the permissions owner to ubuntu group to root mode 765
+ ansible all -m copy -a 'src=/etc/group dest=/tmp mode 765 owner=ubuntu group=root' -b   b for becoming means root permissinns like
+8.ansible command to copy the /etc/group file on all the managed nodes into /tmp folder on the same managed node
+ ansible all -m copy -a 'src=/etc/group dest=/dev/null remote_src=yes'
+9.ansible command to swnd some text into the file present in the /tmp/group
+ ansible all -m copy -a 'content="hi all iam siva" dest=/tmp/group'
+note: copy module is used for 4 perposes
+      1.copying files from controller to all manages nodes
+      2.copy module can also be used for changing the ownerships of the file and                                                                        permission
+      3.it can also change the file present in the managed node from one location                                      to another location of the same managed node
+      4.copy module also used for writing some content into the files
+10.ansible command to copy the /etc/group file from all the manged nodes to the controller
+ ansible all -m fetch -a 'src=/etc/group dest=/home/ubuntu'
+11.ansible command to copy file from one managed node to another manged node
+  directly can't be done .
+   first fetch file from managed node1 to controller and copy to selected node2
+   ansible 10.0.09.8 -m fetch -a 'src=/etc/passwd dest=/home/ubuntu'
+   ansible 10.0.0.4 -m copy -a 'src dest='
+note: fetch module is used for fetching the data from nodes to controller
+12.ansible command to create users on the managed nodes
+ ansible all -m user -a 'name=sivachanikya password=chanikya home=/home/sivachanikya shell=/bin/bash uid=1200' -b 
+  note:user module for creating users and users are created by root so -b to be                                                     given
+
+13.ansible command for installing tree on all the managed nodes
+ ansible all -m apt -a 'name=tree state=present ' -b
+    state=present---->installing
+    state=absent ----->uninstallingor removing
+    state=latest----->latest version upgrading
+14.ansible coomad for uninstalling tomcat7 on all the managed nodes
+  ansible all -m apt -a 'name=tomcat7 state=absent ' -b
+ note:apt module for installing and uninstalling a services -b to be given because       installing or removing done by root only
+15.ansible command to restart tomcat7 on all themanaged nodes
+ ansible all -m service -a 'name=tomcat7 state=restarted' -b
+   state=restarted--->restarting the sevice
+   state=stopped --->stopping the service
+   state=started---->starting the service
+ note:service module is used for starting or stooping or restarting the service
+16.ansible command to check the google is reachable or not
+  ansible all -m uri -a 'url=http://google.com status=200'
+  note: uri module is used for check the url is reachable or not and it returns         value 200 means success other than 200 false
+17 ... configuring apache2
+   i)install apache2 on all the managed nodes
+     ansible all -m apt -a 'name=apache2 state=present' -b
+   ii)editing the index.html file
+      ansible all -m copy -a 'content="hi siva" dest=/var/www/html/index.html' -b
+  iii)restart the apache2 service
+     ansible all -m service -a 'name=apache2 state=restarted' -b
+  iv)uri is reachable or not check once
+    ansible node1ipaddress -m uri -a 'url=http://node1ipaddress
+  default: apache2 is connectec to port numbrt80
+18.install git on all the nodes and download a remote git repository
+  ansible all -m apt -a 'name=git state=present' -b
+  ansible all -m git -a 'repo=https://github.com/sivachanikyamiriyala/maven.git                                                       dest=/home/ubuntu/gitdec'
+     gitdec is automatically created by the system make sure it should be empty
+19.ansible command for creating files and directoried
+  ansible all -m file -a 'name=filedec state=touch'
+   state=touch----->file
+   state=directory----->directory is creating/ed
+20.note--->Through adhoc coomands only one task and activity can be done inorder to avoid that we use playbooks
+-------------------------->playbooks<---------------------------------
+   a playbook is a collection place
+   a play is a combination of task
+21.1.ansible playbook for creating users on all the managed nodes
+   ---
+   - name: creating users
+     become: yes
+     hosts: all
+     tasks:
+      - name: user creatinon 
+        user:
+         name: samsam
+         password: sam
+         home: /home/samsam
+         shell: /bin/bash
+   ...
+note: To check the syntax is correct or not
+         ansible-playbook playbookname --syntax-check
+      To run the playbook
+        ansible-playbook playbookname
+21.2.ansible playbook for configuring apache2 on all the managed nodes
+---
+- name: configuring apache2 on all the managed nodes
+  hosts: all
+  become: yes
+  tasks: 
+   - name: installing apache2
+     apt:
+      name: apache2
+      state: present
+   - name: copy the content to index.html file
+     copy:
+      content: "hi chanikya"
+      dest: /var/www/html/html.index
+   - name: restarting the apache2 servicce
+     service:
+      name: apache2
+      state: restarted  
+   - name: uri is reachable or not
+     uri:
+      url: "{{item}}"
+     with_items:
+      - http://172.31.17.141
+      - http://172.31.28.8
+...
+22.3.ansible playbook for configuring tomcat7 on all the managed nodes
+---
+- name: configuring tomcat7 on all the managed nodes
+  hosts: all
+  become: yes
+  tasks:
+   - name: installing tomcat7 on all the managed nodes
+     apt: 
+      name: tomcat7
+      state: present
+   - name: editing the tomcat-users.xml file
+     copy:
+      src: tomcat-users.xml
+      dest: /etc/tomcat7/tomcat-users.xml
+   - name: restarting the service tomcat7 on all the managed nodes
+     service:
+      name: tomcat7
+      state: restarted
+   - name: uri is reachable or not
+     uri: 
+      url: "{{item}}"
+     with_items:
+      - http://172.31.28.8:8080
+      - http://172.31.17.141:8080
+...
+note: variables in ansible are of 3 types
+   i)global variables are passwd from the command prompt and have highest priority 
+   ii)host scope variables are of two types
+      a)variables to work ona group of hosts
+      b) variable to work on asingle host
+   iii)playscope variables these are placed inside the playbook and and have least
+                                                                      priority
+23.4.ansible playbook for installing/uninstalling packages using global scope varia
+---
+- name: installing/uninstalling packages
+  hosts: all
+  become: yes
+  tasks:
+   - name: install/uninstall s/w
+     apt:
+      name: "{{a}}"
+      state: "{{b}}"
+      update_cache: "{{c}}"
+...
+24.5.ansible playbook for creating users and creating files/directories on all                                                                             nodes
+---
+- name: creating users and creating files/directories
+  hosts: all
+  tasks :
+   - name: creation of users
+     user:
+      name: "{{a}}"
+      password: "{{b}}"
+   - name: creation of files
+     file:
+      name: "{{c}}"
+      state: "{{d}}"
+...   
+25.6.ansible playbook for installing s/ws using playscope variables
+---
+- name: installing s/w
+  hosts: all
+  vars:
+   - a: apache2
+   - b: present
+   - c: no
+  tasks:
+   - name: installing s/w
+     apt:
+      name: "{{a}}"
+      state: "{{b}}"
+      update_cache: "{{c}}"
+...
+  note: global having the highest priority after host scope lastly playscope
+The above playbook works like a template whose default behaviour is to install apache1 on all the time.but we can bypass the variables by passing from command prompt
+26.7.host scope variables
+ variables to work only on group of hosts
+   go to the playbooks location and create a directory whose name is group_vars and    init create a file whose name is same as the group name in /etc/ansible/hosts
+ variable to work only on single host
+  go to playbook location and create a directory called host_vars and init create a   file whose name is same as the single host present in /etc/ansible/hosts 
+26.7.ansible playbook for user creation on the webserver group only
+ mkdir group_vars
+ cd group_vars
+  vi webserver
+  a: pandit
+  b: pandit
+  c: /home/pandit
+  :wq
+  ansible-playbook playbookname
+---
+- name: user creation using host scope variables1
+  hosts: appserver
+  tasks:
+   - name: user creation
+     user:
+      name: "{{a}}"
+      password: "{{b}}"
+      home: "{{c}}"
+...
+27.8. ansible playbook for install softwares on single host variable
+ mkdir host_vars
+ cd host_vars
+ touch 172.31.28.8
+ a: git
+ b: present
+ c: no
+---
+- name: installing s/w
+  hosts: 172.31.28.8
+  tasks:
+   - name: installing s/w
+     apt:
+      name: "{{a}}"
+      state: "{{b}}"
+      update_cache: "{{c}}"
+...
+ run the playbook
+28.9.looping in ansible
+   2 types: with_items,with_sequence
+ ansible playbook for installing multiple softwares
+---
+- name: installing multiple softwares
+  hosts: all
+  tasks: 
+   - name: installing s/ws 
+     apt:
+      name: "{{item}}"
+      state: present
+     with_items:
+      - git
+      - tree
+      - apache2
+...
+29.10.ansible playbook for installing/uninstalling multipple softwares
+---
+- name: installing/uninstallingmultiplesoftwares
+  hosts: all
+  tasks: 
+   - name: installing/uninstalling s/ws
+     apt:
+      name: "{{item.a}}"
+      state: "{{item.b}}"
+      update_cache: "{{item.c}}"
+     with_items:
+      - {a: git,b: latest,c: no}
+      - {a: tree,b: present,c: no}
+      - {a: apache2,b: latest,c: no}
+...
+30.11.
+31.12.
+32.13.ansible playbook for installing tree when a=10
+      this is used if you want to execute a module only if a particular condition                                                                           is true
+---
+- name: installing tree based on the condition
+  hosts: all
+  vars:
+   - a: 10
+  tasks:
+   - name: install tree
+     apt:
+      name: tree
+      state: present
+     when:
+      a == 10
+... 
+33.14.tagging
+ ansible playbook to execute only specific taggged untagged names
+---
+- name: tagging of modules
+  hosts: all
+  tasks: 
+   - name: install tree
+     apt:
+      name: tree
+      state: present
+      update_cache: yes
+     tags:
+      tree_installation
+   - name: copy the password file
+     copy: 
+      src: /etc/passwd
+      dest: /home/ubuntu/
+     tags:
+      copy_passwd
+   - name: user creation
+     user:
+      name: decdec
+      password: decdec
+...
+to execute the tagged modules
+ ansible-playbook playbookname --tags=tagged -b
+to execute the untagged modules
+ ansible-playbook playbookname --tags=untagged -b
+to execute modules with a specific tag name
+ ansible-playbook playbookname --tags=tree_installation -b
+note: tags are used for giving alias names for  the modules
+34.15.ansible playbook calling other playbook using incluse module
+child playbook
+---
+- name: install git
+  apt:
+   name: git
+   state: latest
+...
+parent playbook
+---
+- name: calling other playbook
+  hosts: all
+  tasks: 
+   - name:
+     include:
+      childplaybookname
+...

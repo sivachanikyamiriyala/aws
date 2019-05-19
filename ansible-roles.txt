@@ -1,0 +1,8 @@
+1.ansible roles are present on cloud site of ansible called ansible-galaxy
+2.anasible role advantageds reusability
+3.ansible roles to creaed on /etc/anasible/roles only
+4.To confirm please go to /etc/ansible/conf and see the default the location hwere ansible roles are created
+5.we need to create a role offline 
+  ansible-galaxy init apache2 --offline
+  if we dont't give offline it is going to create role as it is from ansible-galaxy
+  please wait for 1min 
