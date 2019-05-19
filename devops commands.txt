@@ -1,0 +1,15 @@
+ssh-keygen -f devops
+mv devops devops.pem
+ssh -i devops.pem -l ec2-user exip
+cat /proc/meminfo
+cat /proc/cpuinfo
+sudo fdisk -l
+date
+time
+uname
+uname --help
+uname -a
+uname -r
+i am siva
+
+i am newwar
