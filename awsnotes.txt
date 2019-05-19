@@ -1,0 +1,113 @@
+----------->S3(simple storage service)<------------
+install awscli on local machine(windows) msi
+1.in order to connect to s3 firstly we should have access and secrete access keys .
+2.configure the access and secrete access keys
+ aws configure enter access and secrete access keys
+3.to see the list of bucketsin s3 
+ aws s3 ls
+4. to see the objects inside the bucket 950281
+ aws s3 ls s3://950281
+5.to cp from instance to s3 bucket
+ aws s3 cp source s3://bucketname
+6. to copy from s3 to instance
+ aws s3 cp s3://9502816/passwd .
+7.in linux machine awscli need to be installed
+ when downloading or uploading the files from s3 to instance or instance to s3 
+ related to any error having region code you need to specify the region code as                                                                         well
+8.using region code how to download and upload from bucket
+ aws s3 cp s3://bucketname/filename destination --region us-east-1
+ aws s3 cp sourcefilename s3://bucketname --region regioncode
+9.your access and secrete access keys are stored in a file called
+  .aws/config
+10.in .aws/config we need to mention the default region code as us-east-1
+11.[default]
+   region=us-east-a
+12.in s3 only one file can be uploaded and text file can be viewed
+13.text file ending eith .txt 
+14.file permissions are mandatory for requirement chmod ugo=rx filename
+15.
+--------------->EFS(elastic file system<----------------------------------
+1.create a efs and mention the vpc and also the az's
+2.install two instances and attach default security group to it
+3.create a ssh connection b/w the servers
+4.in instance1 create a directory 
+5.install nfs-common on both the servers
+6.mount the instance1 with directory created on instance one
+7.create directory in instance2
+8.mount the directory present in the instance2 with it
+9.now we can see the file sharing is happening
+         ---------><------------------
+-------------------->EBS(elastic block storage<-------------
+1.we can able to install os and softwares in it
+2.Generally it is having 5 types gp2,iops,sc,st,magnetic
+3.out of these 5 only 3 are used for installation 0f softwares gp2,iops,magnetic
+4.we can create an volume and delete an volume
+5.we can mount to instance after creating an volume 
+6.create directory siva
+7.mount /dev/xvdf siva
+8.create a file system into it 
+  mkfs -t ext4 /dev/xvdf
+9.to see the mounting happened
+  lsblk  list of blocks
+10. to see the file system is there are not
+  blkid  blockid if we create again create a file system we may loose previous data
+11.to unmount the volume
+  umount /dev/vdf
+12.to attach a volume to the ec2 instance volume and instance to be present in the 
+   same az's
+13.from volume we can create snapshot
+14.from snapshot we can create the in any region or az and can attach to instances
+15.snapshots are stored in s3
+16.snapshot can't be attched diretly to ec2 instance
+17.while converting from snapshot to volume we can change the type of ebs to any  one of 5 types and we can increase the size of the volume but cant be decreased.
+18.while convertion snapshot to volume we can select the az and we can attach to 
+  particular instance present in the region
+19.while convertion we can copy the snapshot to any other region and convert to   volume and again same repition of the work
+20.s3 bucker can be accessed through cmd also by configure the aws
+  aws configure
+  access keyid  like username
+  secrete access key like password
+21.s3 is having CRR cross refion replication
+    files present in the one bucket can also be shred to other bucket
+   the requisite is buckets should be in different region and version controlling       to be enabled on them
+22.s3 is having life cycle rules means 
+   we can specify the rules from standard to standard-IA min 30days are needed
+   from standard-IA to glacier min 30 days are needed
+    Among all the types in s3 Glacier is the cheaper one 
+23.If we want to access the files from outside from browser
+   we need to give bucket permissions while bucket is creating and file permissions    to visible to all
+   each file has unique url
+   same file with multiple versions also have unique url
+24.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------->difference b/w ebs efs s3<-------------------
+  EBS                       |                   efs            |s3
+1.we can install os and sof  1.generally used for file sharing  1.used for storing
+                     twares                                                objects
+2.storage size is limited    2.unlimited storage                2.unlimited storage
+3.very costly                3.less cost compaewd to ebs        3.among 3 s3 cheap
+4.we can't attach ebs to     4.we can attach efs to multiple
+multiple instances at a time    instances at a time             4.global service
+5.5 types                     5.only one type                   5.4 types
+ gp2                                                       standard(4 9's,11 '9s)
+ iops                                                      standardIA(4 9s,9 9s)
+ sc                                                        rr (same as above)
+  st                                                       glacier(a=nil,d=11 9's)
+ magnetic                                                In s3 snapshots are stored
+-----------------------------><----------------------------------------------------
