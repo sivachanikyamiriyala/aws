@@ -1,0 +1,16 @@
+yum list 
+yum list all
+yum list available
+yum list installed
+yum install gcc -y
+yum remove gcc -y 
+yum check-updates
+
+systemctl start jenkins
+systemctl enable jenkins
+systemctl stop jenkins
+systemctl start httpd
+
+
+netstat -lntp 
+ps -ef | grep jenkins
