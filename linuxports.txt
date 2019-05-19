@@ -1,0 +1,22 @@
+plugin publish over ssh
+configuresystem search for publish over ssh
+ssh servers add
+for storing all the artifacts use jfrog
+sonarcube also configured in configuresystem
+artifactory
+sonarcube scannar
+
+https/apache2 80
+tomcat8 8080
+ftp 20 and 21
+ssh 22
+telnet 23
+smtp 25
+dns 53
+mysql any 3306
+https 443(ssl certificate to buy and to be implementted /etc/http/httpd.conf)
+nfs 2049
+grep -i webapps * -R (ina directory all searching based on  webapps case insensitive and recursively checking)
+?	Perform daily system monitoring, verifying the integrity and availability of all hardware, server resources, systems and key processes, reviewing system and application logs, and verifying completion of scheduled jobs such as backups
+
+
