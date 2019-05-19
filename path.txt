@@ -1,0 +1,1 @@
+C:\Program Files (x86)\Common Files\Oracle\Java\javapath;E:\app\SIVA\product\11.2.0\dbhome_2\bin;C:\Program Files\Java\jdk1.8.0_144\bin;C:\Program Files\PuTTY\;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk1.8.0_144\bin;C:\Program Files (x86)\Common Files\Apple\Internet Services\
